@@ -1,6 +1,6 @@
 import streamlit as st
 from main_page import show_main
-from stats_page import show_today_losers
+from stats_page import show_today_losers, show_recent_games
 
 main_page_str = "순위 저장"
 stats_page_str = "통계"
@@ -17,3 +17,4 @@ if page == main_page_str:
     show_main()
 elif page == stats_page_str:
     show_today_losers()
+    show_recent_games()
