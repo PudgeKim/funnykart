@@ -1,0 +1,12 @@
+__pycache__/
+.idea/
+.DS_Store
+
+# 가상 환경
+venv/
+env/
+.venv/
+
+# streamlit 임시 캐시
+.streamlit/config.toml
+.streamlit/*.json
