@@ -4,7 +4,7 @@ from utils import *
 
 
 def show_main():
-    st.title("이클립스 서버 카트 대결")
+    st.title("이클립스 서버 카트 내기")
     add_new_line()
 
     empty_count = 0
