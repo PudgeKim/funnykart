@@ -7,6 +7,14 @@ from utils import *
 
 
 def show_main():
+    track_key = "selected_track_"
+    screenshot_key = "screenshot_"
+
+    if st.session_state.get("reset"):
+        for i in range(7):
+            st.session_state[f"{track_key}{i}"] = "트랙을 선택하세요"
+        st.session_state["reset"] = False
+
     st.title("이클립스 서버 카트 내기")
     add_new_line()
 
@@ -24,14 +32,14 @@ def show_main():
         selected_track = st.selectbox(
             f"{korean_num} 플레이한 트랙을 선택하세요.",
             tracks,
-            key=f"selected_track_{i}"
+            key=f"{track_key}{i}"
         )
         selected_track_list.append(selected_track)
 
         screenshot = st.file_uploader(
             f"{korean_num} 랭킹 스크린샷을 첨부하세요.",
             type=["png", "jpg", "jpeg"],
-            key=f"screenshot_{i}"
+            key=f"{screenshot_key}{i}"
         )
         uploaded_screenshot_list.append(screenshot)
 
@@ -79,6 +87,9 @@ def show_main():
         ]
         response = requests.post(create_url("/races"), json=data)
         if response.status_code == 200:
-            st.success("저장되었습니다.")
+            st.success("저장되었습니다")
+            selected_track_list.clear()
+            uploaded_screenshot_list.clear()
+            st.session_state["reset"] = True
         else:
             st.error(f"저장 실패! error_code: {response.status_code}")
