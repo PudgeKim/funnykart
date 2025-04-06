@@ -49,9 +49,12 @@ def show_main():
             korean_num = number_to_korean(i + 1)
             if track == empty_track:
                 st.warning(f"{korean_num} 트랙이 선택되지 않았습니다.")
+                return
 
         for i in range(len(uploaded_screenshot_list)):
             screenshot = uploaded_screenshot_list[i]
             korean_num = number_to_korean(i + 1)
             if screenshot is None:
                 st.warning(f"{korean_num} 랭킹이 첨부되지 않았습니다.")
+                return
+
