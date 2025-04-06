@@ -1,4 +1,7 @@
+import requests
 from PIL import Image
+
+from url import create_url
 from tracks import all_tracks
 from utils import *
 
@@ -58,3 +61,24 @@ def show_main():
                 st.warning(f"{korean_num} 랭킹이 첨부되지 않았습니다.")
                 return
 
+        # TODO: 스크린샷 파싱..
+        data = [
+            {
+                "track_name": "빙판길",
+                "results": [
+                    {
+                        "rank": 1,
+                        "character_name": "지나가네"
+                    },
+                    {
+                        "rank": 2,
+                        "character_name": "호우동"
+                    }
+                ]
+            }
+        ]
+        response = requests.post(create_url("/races"), json=data)
+        if response.status_code == 200:
+            st.success("저장되었습니다.")
+        else:
+            st.error(f"저장 실패! error_code: {response.status_code}")
