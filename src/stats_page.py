@@ -2,12 +2,16 @@ import streamlit as st
 import requests
 import pandas as pd
 
-from datetime import datetime
 from url import create_url
 
 
 def show_today_losers():
-    st.title("오늘의 꼴찌")
+    st.markdown("""
+    <h2 style='text-align: center; color: orange; font-style: italic;'>
+        🐌 오늘도 음료수를 지원해주신 <span style='color: tomato;'>꼴찌들!</span>
+    </h2>
+    """, unsafe_allow_html=True)
+    st.caption("하루동안 내기를 2판 이상 한 경우에는 꼴찌가 2명 이상 표기됩니다.")
 
 
 def show_recent_losers():
