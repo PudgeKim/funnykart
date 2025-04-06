@@ -34,11 +34,11 @@ def show_recent_games():
 
         for race in race_data:
             st.subheader(race["track_name"])
-            st.write("날짜:", race["created_at"])
+            created_at = pd.to_datetime(race["created_at"]).strftime("%Y-%m-%d %H:%M")
+            st.caption(f"{created_at}")
 
-            st.markdown("**순위**")
-            for result in race["results"]:
-                st.write(f'{result["rank"]}위: {result["character_name"]} - {result["finish_time"]}')
+            df = pd.DataFrame(race["results"])
+            st.dataframe(df, use_container_width=True, hide_index=True)
             st.divider()
     else:
         st.error(f"데이터를 가져오지 못했습니다. error_code: {response.status_code}")
