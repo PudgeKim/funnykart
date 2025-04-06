@@ -1,6 +1,6 @@
 import streamlit as st
 from main_page import show_main
-from character_stats_page import show_all_losing_data_by_character
+from character_stats_page import show_loser_history_by_character
 from utils import add_new_line
 from stats_page import show_today_losers, show_recent_games, show_recent_losers
 
@@ -33,5 +33,5 @@ elif page == character_stats_page_str:
         submitted = st.form_submit_button("확인")
 
     if submitted:
-        show_all_losing_data_by_character(character_name)
+        show_loser_history_by_character(character_name)
 
