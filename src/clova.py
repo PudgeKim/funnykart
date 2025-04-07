@@ -22,7 +22,7 @@ def request_to_clova(uploaded_files):
             'name': file.name
         })
 
-        files.append(('file', file))
+        files.append(('file', file.getvalue()))
 
     request_json = {
         'version': 'V2',
