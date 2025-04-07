@@ -14,15 +14,15 @@ CLOVA_INVOKE_URL = os.getenv("CLOVA_INVOKE_URL")
 
 def request_to_clova(uploaded_files):
     images = []
-    for file in uploaded_files:
-        file_bytes = file.read()
-        encoded = base64.b64encode(file_bytes).decode("utf-8")
+    files = []
 
+    for file in uploaded_files:
         images.append({
             'format': 'png',
-            'name': file.name,
-            'data': encoded
+            'name': file.name
         })
+
+        files.append(('file', file))
 
     request_json = {
         'version': 'V2',
@@ -30,14 +30,17 @@ def request_to_clova(uploaded_files):
         'timestamp': int(round(time.time() * 1000)),
         'images': images,
     }
+    payload = {
+        'message': json.dumps(request_json).encode('UTF-8')
+    }
     headers = {
-        'Content-Type': 'application/json',
         'X-OCR-SECRET': CLOVA_SECRET_KEY
     }
 
     return requests.post(
         url=CLOVA_INVOKE_URL,
-        data=json.dumps(request_json).encode('UTF-8'),
         headers=headers,
+        data=payload,
+        files=files,
     )
 
