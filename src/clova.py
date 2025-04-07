@@ -1,3 +1,4 @@
+import json
 import os
 import time
 import uuid
@@ -15,13 +16,12 @@ def request_to_clova(uploaded_files):
     images = []
     for file in uploaded_files:
         file_bytes = file.read()
-        base64_bytes = base64.b64encode(file_bytes)
-        base64_string = base64_bytes.decode("utf-8")
+        encoded = base64.b64encode(file_bytes).decode("utf-8")
 
         images.append({
             'format': 'png',
             'name': file.name,
-            'data': base64_string
+            'data': encoded
         })
 
     request_json = {
@@ -37,7 +37,7 @@ def request_to_clova(uploaded_files):
 
     return requests.post(
         url=CLOVA_INVOKE_URL,
-        data=request_json,
+        data=json.dumps(request_json).encode('UTF-8'),
         headers=headers,
     )
 
