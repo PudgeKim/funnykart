@@ -103,12 +103,24 @@ def show_main():
                     rank_list.append(current_rank)
                     current_rank += 1
 
+                # 도착 시간 파싱 (초 단위 까지만 파싱함)
+                if ':' in infer_text:
+                    if '+' not in infer_text:
+                        parsed_time = infer_text.split('.')[0]
+                        finish_time_list.append(parsed_time)
+
                 current_index += 1
 
             race_result = []
             for character_idx in range(len(character_name_list)):
                 character_name = character_name_list[character_idx]
                 rank = rank_list[character_idx]
+
+                # 도착 시간이 RETIRED인 경우 리스트에 추가되지 않으므로 처리해줌
+                finish_time = "RETIRED"
+                if character_idx < len(finish_time_list):
+                    finish_time = finish_time_list[character_idx]
+
                 race_result.append({
                     "rank": rank,
                     "character_name": character_name
