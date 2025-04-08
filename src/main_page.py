@@ -1,6 +1,8 @@
 import requests
 from PIL import Image
 
+from clova import request_to_clova
+from characters import all_characters
 from url import create_url
 from tracks import all_tracks
 from utils import *
@@ -69,23 +71,55 @@ def show_main():
                 st.warning(f"{korean_num} 랭킹이 첨부되지 않았습니다.")
                 return
 
-        # TODO: 스크린샷 파싱..
-        data = [
-            {
-                "track_name": "빙판길",
-                "results": [
-                    {
-                        "rank": 1,
-                        "character_name": "지나가네"
-                    },
-                    {
-                        "rank": 2,
-                        "character_name": "호우동"
-                    }
-                ]
-            }
-        ]
-        response = requests.post(create_url("/races"), json=data)
+        race_results = []
+
+        for screenshot_idx in range(len(uploaded_screenshot_list)):
+            uploaded_screenshot = uploaded_screenshot_list[screenshot_idx]
+            clova_response = request_to_clova(uploaded_screenshot).json()
+            clova_images = clova_response["images"]
+
+            image = clova_images[0]
+            image_name = image["name"]
+            result = image["inferResult"]
+            if result != 'SUCCESS':
+                st.error(f"클로바 이미지 파싱 실패! image_name: {image_name}")
+                return
+
+            rank_list = []
+            character_name_list = []
+            finish_time_list = []
+
+            fields = image["fields"]
+            fields_length = len(fields)
+            current_rank = 1
+            current_index = 0
+
+            while current_index < fields_length:
+                field = fields[current_index]
+                infer_text = field["inferText"]
+
+                if infer_text in all_characters:
+                    character_name_list.append(infer_text)
+                    rank_list.append(current_rank)
+                    current_rank += 1
+
+                current_index += 1
+
+            race_result = []
+            for character_idx in range(len(character_name_list)):
+                character_name = character_name_list[character_idx]
+                rank = rank_list[character_idx]
+                race_result.append({
+                    "rank": rank,
+                    "character_name": character_name
+                })
+
+            race_results.append({
+                "track_name": selected_track_list[screenshot_idx],
+                "results": race_result
+            })
+
+        response = requests.post(create_url("/races"), json=race_results)
         if response.status_code == 200:
             st.success("저장되었습니다")
             selected_track_list.clear()

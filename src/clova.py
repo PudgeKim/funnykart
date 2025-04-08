@@ -12,17 +12,15 @@ CLOVA_SECRET_KEY = os.getenv("CLOVA_SECRET_KEY")
 CLOVA_INVOKE_URL = os.getenv("CLOVA_INVOKE_URL")
 
 
-def request_to_clova(uploaded_files):
+def request_to_clova(uploaded_file):
     images = []
     files = []
 
-    for file in uploaded_files:
-        images.append({
-            'format': 'png',
-            'name': file.name
-        })
-
-        files.append(('file', file.getvalue()))
+    images.append({
+        'format': 'png',
+        'name': uploaded_file.name
+    })
+    files.append(('file', uploaded_file.getvalue()))
 
     request_json = {
         'version': 'V2',
