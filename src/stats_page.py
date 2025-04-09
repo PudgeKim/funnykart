@@ -16,10 +16,12 @@ def show_today_losers():
     response = requests.get(create_url("/races/today-losers"))
     if response.status_code == 200:
         losers_data = response.json()
-
-        df = pd.DataFrame(losers_data)
-        df = df[["group_uuid", "character_name", "total_rank"]]
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        if not losers_data:
+            st.write("아직 오늘의 꼴찌가 나오지 않았습니다.")
+        else:
+            df = pd.DataFrame(losers_data)
+            df = df[["group_uuid", "character_name", "total_rank"]]
+            st.dataframe(df, use_container_width=True, hide_index=True)
     else:
         st.error(f"데이터를 가져오지 못했습니다. error_code: {response.status_code}")
 
