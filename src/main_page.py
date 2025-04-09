@@ -123,7 +123,8 @@ def show_main():
 
                 race_result.append({
                     "rank": rank,
-                    "character_name": character_name
+                    "character_name": character_name,
+                    "finish_time": finish_time,
                 })
 
             race_results.append({
