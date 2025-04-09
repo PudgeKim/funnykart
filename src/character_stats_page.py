@@ -15,7 +15,7 @@ def show_loser_history_by_character(character_name):
             st.write("아직 꼴찌 데이터가 없습니다.")
         else:
             df = pd.DataFrame(loser_history)
-            df = df[["created_at", "group_uuid", "character_name", "total_rank"]]
+            df = df[["created_at", "group_hash", "character_name", "total_rank"]]
             st.dataframe(df, use_container_width=True, hide_index=True)
     else:
         st.error(f"데이터를 가져오지 못했습니다. error_code: {response.status_code}")

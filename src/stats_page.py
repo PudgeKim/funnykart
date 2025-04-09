@@ -20,7 +20,7 @@ def show_today_losers():
             st.write("아직 오늘의 꼴찌가 나오지 않았습니다.")
         else:
             df = pd.DataFrame(losers_data)
-            df = df[["group_uuid", "character_name", "total_rank"]]
+            df = df[["group_hash", "character_name", "total_rank"]]
             st.dataframe(df, use_container_width=True, hide_index=True)
     else:
         st.error(f"데이터를 가져오지 못했습니다. error_code: {response.status_code}")
@@ -35,7 +35,7 @@ def show_recent_losers():
 
         df = pd.DataFrame(losers_data)
         df["created_at"] = pd.to_datetime(df["created_at"]).dt.strftime("%Y-%m-%d %H:%M")
-        df = df[["created_at", "group_uuid", "character_name", "total_rank"]]
+        df = df[["created_at", "group_hash", "character_name", "total_rank"]]
         st.dataframe(df, use_container_width=True, hide_index=True)
     else:
         st.error(f"데이터를 가져오지 못했습니다. error_code: {response.status_code}")
