@@ -41,6 +41,20 @@ def show_recent_losers():
         st.error(f"데이터를 가져오지 못했습니다. error_code: {response.status_code}")
 
 
+def show_all_tracks_count():
+    st.title("전체 트랙 플레이 횟수")
+    response = requests.get(create_url("/tracks/all"))
+
+    if response.status_code == 200:
+        data = response.json()
+
+        df = pd.DataFrame(data)
+        df = df[["track_name", "count"]]
+        st.dataframe(df, use_container_width=True, hide_index=True)
+    else:
+        st.error(f"데이터를 가져오지 못했습니다. error_code: {response.status_code}")
+
+
 def show_recent_games():
     st.title("최근 경기 기록")
     response = requests.get(create_url("/races/recent-races"))

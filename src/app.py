@@ -2,7 +2,7 @@ import streamlit as st
 from main_page import show_main
 from character_stats_page import show_loser_history_by_character
 from utils import add_new_line
-from stats_page import show_today_losers, show_recent_games, show_recent_losers
+from stats_page import show_today_losers, show_recent_games, show_recent_losers, show_all_tracks_count
 
 main_page_str = "순위 저장"
 stats_page_str = "통계"
@@ -24,6 +24,9 @@ elif page == stats_page_str:
     add_new_line()
 
     show_recent_losers()
+    add_new_line()
+
+    show_all_tracks_count()
     add_new_line()
 
     show_recent_games()
