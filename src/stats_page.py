@@ -42,7 +42,7 @@ def show_recent_losers():
 
 
 def show_all_tracks_count():
-    st.title("전체 트랙 플레이 횟수")
+    st.title("상위 20개 트랙 플레이 횟수")
     response = requests.get(create_url("/tracks/all"))
 
     if response.status_code == 200:
